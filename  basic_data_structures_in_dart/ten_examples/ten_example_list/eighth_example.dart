@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 void main() {
   // Create a list of tasks
   List<Task> tasks = [
@@ -19,7 +17,8 @@ void main() {
   // Print the sorted and filtered tasks
   print('Tasks Due Within Next Week:');
   for (var task in upcomingTasks) {
-    print('- ${task.name} (Priority: ${task.priority}, Due: ${task.dueDate.toLocal()})');
+    print(
+        '- ${task.name} (Priority: ${task.priority}, Due: ${task.dueDate.toLocal()})');
   }
 }
 
@@ -37,5 +36,8 @@ List<Task> getTasksDueWithinWeek(List<Task> tasks) {
   DateTime now = DateTime.now();
   DateTime weekFromNow = now.add(Duration(days: 7));
 
-  return tasks.where((task) => task.dueDate.isAfter(now) && task.dueDate.isBefore(weekFromNow)).toList();
+  return tasks
+      .where((task) =>
+          task.dueDate.isAfter(now) && task.dueDate.isBefore(weekFromNow))
+      .toList();
 }
