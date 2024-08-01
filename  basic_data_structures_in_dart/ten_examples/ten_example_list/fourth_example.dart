@@ -7,22 +7,32 @@ void main() {
     Product('Headphones', 150.00),
     Product('Smartwatch', 250.00),
   ];
-
-  // Sort products by price
-  products.sort((a, b) => a.price.compareTo(b.price));
-
-  // Filter products under a specific price
-  double maxPrice = 500.00;
-  List<Product> affordableProducts = filterAffordableProducts(products, maxPrice);
-
-  // Print the sorted and filtered list
-  print('Affordable Products under \$$maxPrice:');
-  for (var product in affordableProducts) {
-    print('- ${product.name}: \$${product.price}');
+  
+  products.sort((a,b)=> a.price.compareTo(b.price));
+  
+  double minPrice=0;
+  double midPrice=500;
+  double maxPrice=1000;
+  
+  List<Product> minProducts = filterProductsMin(products,minPrice,midPrice);
+  print("Min Price Product");
+  for (var product in minProducts){
+    print('-${product.name}: \$${product.price}');
+  }
+  
+  List<Product> midProducts = filterProductsMid(products,midPrice,maxPrice);
+  print("Mid Price Product");
+  for (var product in midProducts){
+    print('-${product.name}: \$${product.price}');
+  }
+  
+  List<Product> maxProducts = filterProductsMax(products,maxPrice);
+  print("Max Price Product");
+  for (var product in maxProducts){
+    print('-${product.name}: \$${product.price}');
   }
 }
 
-// Product class to hold product details
 class Product {
   String name;
   double price;
@@ -30,7 +40,14 @@ class Product {
   Product(this.name, this.price);
 }
 
-// Method to filter products under a specific price
-List<Product> filterAffordableProducts(List<Product> products, double maxPrice) {
-  return products.where((product) => product.price < maxPrice).toList();
+List<Product> filterProductsMin(List<Product> products, double minPrice, double midPrice) {
+  return products.where((product) => product.price >= minPrice && product.price < midPrice).toList();
+}
+
+List<Product> filterProductsMid(List<Product> products, double midPrice, double maxPrice) {
+  return products.where((product) => product.price >= midPrice && product.price < maxPrice).toList();
+}
+
+List<Product> filterProductsMax(List<Product> products, double maxPrice) {
+  return products.where((product) => product.price >= maxPrice).toList();
 }
