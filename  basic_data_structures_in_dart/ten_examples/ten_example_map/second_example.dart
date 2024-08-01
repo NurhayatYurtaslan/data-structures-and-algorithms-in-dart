@@ -1,25 +1,24 @@
-void main() {
-  // Sample sentence
-  String sentence = 'this is a simple sentence with some simple words';
+import 'dart:collection';
 
-  // Split the sentence into words
-  List<String> words = sentence.split(' ');
-
-  // Create a map to count word frequencies
-  Map<String, int> wordFrequency = {};
-
-  // Count the frequency of each word
-  for (var word in words) {
-    if (wordFrequency.containsKey(word)) {
-      wordFrequency[word] = wordFrequency[word]! + 1;
-    } else {
-      wordFrequency[word] = 1;
-    }
+void main(){
+  Map<String,double> studentGrades={
+    'Alice':85.5,
+    'Bob':92.0,
+    'Charlie':78.0,
+  };
+  
+  final hashMap= HashMap.of(studentGrades);
+  print(hashMap);
+  
+  String studentName = 'John';
+  
+  if(hashMap.containsKey(studentName)){
+    hashMap['Bob']=99;
+    print(hashMap);
+    print(studentGrades);
+  }else{
+    hashMap['john']=88;
+    print(hashMap);
+    print(studentGrades);
   }
-
-  // Print word frequencies
-  print('Word Frequencies:');
-  wordFrequency.forEach((word, frequency) {
-    print('$word: $frequency');
-  });
 }
