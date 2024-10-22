@@ -55,11 +55,11 @@ class RedBlackTree {
       node = rotateLeft(node);
     }
 
-    if (isRed(node.left) && isRed(node.left?.left)) {
+    if (isRed(node?.left) && isRed(node?.left?.left)) {
       node = rotateRight(node);
     }
 
-    if (isRed(node.left) && isRed(node.right)) {
+    if (isRed(node?.left) && isRed(node?.right)) {
       flipColors(node);
     }
 
