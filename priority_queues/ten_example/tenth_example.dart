@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 class Packet {
   String source;
   String destination;
@@ -8,12 +6,31 @@ class Packet {
   Packet(this.source, this.destination, this.priority);
 }
 
-class TrafficManager {
-  PriorityQueue<Packet> _packetQueue;
+class CustomPriorityQueue {
+  List<Packet> _queue = [];
 
-  TrafficManager() {
-    _packetQueue = PriorityQueue<Packet>((a, b) => a.priority.compareTo(b.priority));
+  // Paketi ekleyip ardından sıralama yapıyoruz
+  void add(Packet packet) {
+    _queue.add(packet);
+    _queue.sort((a, b) => a.priority.compareTo(b.priority)); // Öncelik sırasına göre sırala
   }
+
+  // İlk öğeyi alıp çıkarma
+  Packet removeFirst() {
+    if (_queue.isNotEmpty) {
+      return _queue.removeAt(0); // En yüksek öncelikli öğeyi çıkar
+    } else {
+      throw Exception('Queue is empty');
+    }
+  }
+
+  bool get isNotEmpty => _queue.isNotEmpty;
+}
+
+class TrafficManager {
+  CustomPriorityQueue _packetQueue = CustomPriorityQueue(); // Başlatılıyor
+
+  TrafficManager();
 
   void addPacket(String source, String destination, int priority) {
     _packetQueue.add(Packet(source, destination, priority));
@@ -26,6 +43,7 @@ class TrafficManager {
     }
   }
 }
+
 
 void main() {
   var trafficManager = TrafficManager();
