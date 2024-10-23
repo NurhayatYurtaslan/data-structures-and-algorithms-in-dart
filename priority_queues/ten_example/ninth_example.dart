@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 class Task {
   String name;
   int priority; // 1: en yüksek, 5: en düşük
@@ -8,15 +6,32 @@ class Task {
   Task(this.name, this.priority, this.duration);
 }
 
-class TaskScheduler {
-  PriorityQueue<Task> _taskQueue;
+class CustomPriorityQueue {
+  List<Task> _queue = [];
 
-  TaskScheduler() {
-    _taskQueue = PriorityQueue<Task>((a, b) {
+  // Görevleri öncelik ve süreye göre sıralıyoruz
+  void add(Task task) {
+    _queue.add(task);
+    _queue.sort((a, b) {
       int priorityComparison = a.priority.compareTo(b.priority);
       return priorityComparison != 0 ? priorityComparison : a.duration.compareTo(b.duration);
     });
   }
+
+  // İlk görevi çıkarma (en yüksek öncelik ve kısa süre)
+  Task removeFirst() {
+    if (_queue.isNotEmpty) {
+      return _queue.removeAt(0); // İlk görevi çıkar
+    } else {
+      throw Exception('Queue is empty');
+    }
+  }
+
+  bool get isNotEmpty => _queue.isNotEmpty;
+}
+
+class TaskScheduler {
+  CustomPriorityQueue _taskQueue = CustomPriorityQueue(); // PriorityQueue yerine CustomPriorityQueue
 
   void addTask(String name, int priority, int duration) {
     _taskQueue.add(Task(name, priority, duration));
