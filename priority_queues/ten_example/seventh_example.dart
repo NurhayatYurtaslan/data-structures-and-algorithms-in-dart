@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 class JobPost {
   String title;
   int applications;
@@ -7,12 +5,29 @@ class JobPost {
   JobPost(this.title, this.applications);
 }
 
-class JobManager {
-  PriorityQueue<JobPost> _jobQueue;
+class CustomPriorityQueue {
+  List<JobPost> _queue = [];
 
-  JobManager() {
-    _jobQueue = PriorityQueue<JobPost>((a, b) => b.applications.compareTo(a.applications));
+  // Listeyi başvuru sayısına göre (yüksekten düşüğe) sıralıyoruz
+  void add(JobPost jobPost) {
+    _queue.add(jobPost);
+    _queue.sort((a, b) => b.applications.compareTo(a.applications)); // Başvuru sayısına göre sırala
   }
+
+  // İlk öğeyi çıkarma
+  JobPost removeFirst() {
+    if (_queue.isNotEmpty) {
+      return _queue.removeAt(0); // En yüksek başvuruya sahip işi çıkar
+    } else {
+      throw Exception('Queue is empty');
+    }
+  }
+
+  bool get isNotEmpty => _queue.isNotEmpty;
+}
+
+class JobManager {
+  CustomPriorityQueue _jobQueue = CustomPriorityQueue(); // PriorityQueue yerine CustomPriorityQueue
 
   void addJob(String title, int applications) {
     _jobQueue.add(JobPost(title, applications));
